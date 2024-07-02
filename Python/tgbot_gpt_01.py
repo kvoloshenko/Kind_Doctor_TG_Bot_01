@@ -6,30 +6,17 @@ import os
 # import gpt_funcation_doctor_01 as chat_gpt
 from loguru import logger
 
-# logger.add("Logs/tgbot_gpt_debug.log", format="{time} {level} {message}", level="DEBUG", rotation="100 KB", compression="zip")
-
 # возьмем переменные окружения из .env
 load_dotenv()
-
 # загружаем значеняи из файла .env
 TOKEN = os.environ.get("TOKEN")
-
-# TEXT_BEGINNING = os.environ.get("TEXT_BEGINNING")
 logger.debug(f'TEXT_BEGINNING = {TEXT_BEGINNING}')
-
-# BOT_START_REPLY = os.environ.get("BOT_START_REPLY")
 logger.debug(f'BOT_START_REPLY={BOT_START_REPLY}')
-
 print('Команда для обновления данных: ##reload##')
-
-
-# TEXT_END = os.environ.get("TEXT_END")
 logger.debug(f'TEXT_END = {TEXT_END}')
 
-# QUESTION_FILTER = os.environ.get("QUESTION_FILTER")
 if QUESTION_FILTER is None:
     QUESTION_FILTER = ""
-
 
 # функция команды /start
 async def start(update, context):
