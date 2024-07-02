@@ -1,7 +1,7 @@
 from config import *
 from telegram.ext import Application, CommandHandler, MessageHandler, filters
 from dotenv import load_dotenv
-# from tools_01 import split_text
+from tools_01 import split_text
 import os
 # import gpt_funcation_doctor_01 as chat_gpt
 from loguru import logger
@@ -35,9 +35,7 @@ async def text(update, context):
     user_name = update.message.from_user.first_name
     user_id = update.message.from_user.id
     topic = update.message.text
-    # TODO
-    topic_splited = topic
-    # topic_splited = split_text(topic, 40) # Разбиени строки переводом коретки
+    topic_splited = split_text(topic, 40) # Разбиени строки переводом коретки
     logger.debug(f'text: {topic_splited}')
 
     question_filter_len = len (QUESTION_FILTER)
@@ -59,9 +57,7 @@ async def text(update, context):
         response = TEXT_BEGINNING + '\n'
         response = response + reply_text + '\n' + TEXT_END
         await update.message.reply_text(f'{response}')
-        # TODO
-        reply_text_splited = reply_text
-        # reply_text_splited = split_text(reply_text, 40) # Разбиени строки переводом каретки
+        reply_text_splited = split_text(reply_text, 40) # Разбиени строки переводом каретки
         logger.debug(f'reply_text_splited={reply_text_splited}')
         logger.debug('-------------------')
 
