@@ -1,0 +1,2 @@
+TOKEN = '***'        # Telegram Token
+API_KEY = '***'      # Open AI API Key
