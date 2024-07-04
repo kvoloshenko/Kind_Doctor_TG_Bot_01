@@ -1,3 +1,4 @@
+from config import *
 import os
 from dotenv import load_dotenv
 from loguru import logger
@@ -28,34 +29,21 @@ client = OpenAI(
     api_key=openai.api_key
 )
 
-BA = os.environ.get("BA") # billing account
 logger.debug(f'BA={BA}')
-
-LL_MODEL = os.environ.get("LL_MODEL") # модель
 logger.debug(f'LL_MODEL = {LL_MODEL}')
 
-CHUNK_SIZE = int(os.environ.get("CHUNK_SIZE")) # Количество токинов в  чанке
+# CHUNK_SIZE = int(os.environ.get("CHUNK_SIZE")) # Количество токинов в  чанке
 logger.debug(f'CHUNK_SIZE={CHUNK_SIZE}')
 
-NUMBER_RELEVANT_CHUNKS = int(os.environ.get("NUMBER_RELEVANT_CHUNKS"))   # Количество релевантных чанков
+# NUMBER_RELEVANT_CHUNKS = int(os.environ.get("NUMBER_RELEVANT_CHUNKS"))   # Количество релевантных чанков
 logger.debug(f'NUMBER_RELEVANT_CHUNKS={NUMBER_RELEVANT_CHUNKS}')
 
-TEMPERATURE = float(os.environ.get("TEMPERATURE")) # Температура модели
+# TEMPERATURE = float(os.environ.get("TEMPERATURE")) # Температура модели
 logger.debug(f'TEMPERATURE={TEMPERATURE}')
-
-SYSTEM_DOC_URL = os.environ.get("SYSTEM_DOC_URL") # промпт
 logger.debug(f'SYSTEM_DOC_URL = {SYSTEM_DOC_URL}')
-
-KNOWLEDGE_BASE_URL = os.environ.get("KNOWLEDGE_BASE_URL") # база знаний
 logger.debug(f'KNOWLEDGE_BASE_URL = {KNOWLEDGE_BASE_URL}')
-
-DATA_FILES = os.environ.get("DATA_FILES")
 logger.debug(f'DATA_FILES = {DATA_FILES}')
-
-DB_DIR_NAME = os.environ.get("DB_DIR_NAME") # каталог для db
 logger.debug(f'DB_DIR_NAME = {DB_DIR_NAME}')
-
-DATA_REGISTRATION_FILE = os.environ.get("DATA_REGISTRATION_FILE")
 logger.debug(f'DATA_REGISTRATION_FILE={DATA_REGISTRATION_FILE}')
 
 REGISTRATION_NUMBER = 0 # Номер регистрационной записи
