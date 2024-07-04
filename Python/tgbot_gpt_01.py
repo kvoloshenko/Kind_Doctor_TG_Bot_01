@@ -3,7 +3,7 @@ from telegram.ext import Application, CommandHandler, MessageHandler, filters
 from dotenv import load_dotenv
 from tools_01 import split_text
 import os
-# import gpt_funcation_doctor_01 as chat_gpt
+import gpt_funcation_doctor_01 as chat_gpt
 from loguru import logger
 
 # возьмем переменные окружения из .env
@@ -46,13 +46,12 @@ async def text(update, context):
     if (QUESTION_FILTER == topic_first_n) or (chat_type == 'private'):
         if topic=='##reload##':
             # обновление промта и базы знаний
-            # TODO
-            # chat_gpt.system, chat_gpt.db = chat_gpt.reload_data()
+            chat_gpt.system, chat_gpt.db = chat_gpt.reload_data()
             reply_text = 'Данные обновлены!'
         else:
             # TODO
-            reply_text = "The answer is a stub"
-            # reply_text = chat_gpt.answer_user_question(topic, user_name, str(user_id))
+            # reply_text = "The answer is a stub"
+            reply_text = chat_gpt.answer_user_question(topic, user_name, str(user_id))
 
         response = TEXT_BEGINNING + '\n'
         response = response + reply_text + '\n' + TEXT_END
