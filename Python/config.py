@@ -1,5 +1,5 @@
-# SYSTEM_DOC_URL = '***'            # Промпт
-# KNOWLEDGE_BASE_URL = '***'        # База Знаний
+SYSTEM_DOC_URL = '***'            # Промпт
+KNOWLEDGE_BASE_URL = '***'        # База Знаний
 # SYSTEM_DOC_LOCAL = '/content/drive/MyDrive/_AI/Signs_Symptoms/Doc/SYSTEM_DOC.txt'
 # KNOWLEDGE_BASE_LOCAL = '/content/drive/MyDrive/_AI/Signs_Symptoms/Doc/KNOWLEDGE_BASE.txt'
 TEMPERATURE = 0.8                 # Температура модели
