@@ -1,4 +1,3 @@
-from config import *
 import os
 from dotenv import load_dotenv
 from loguru import logger
@@ -11,7 +10,6 @@ from langchain_openai import OpenAIEmbeddings
 from chat_history_01 import set_user_history, get_user_history, reset_user_history
 import openai
 from openai import OpenAI
-# from openai import AsyncOpenAI
 
 # Get the current date and time
 current_datetime = datetime.now(tz=timezone(timedelta(hours=3)))
@@ -25,25 +23,39 @@ load_dotenv()
 API_KEY = os.environ.get("API_KEY")
 os.environ["OPENAI_API_KEY"] = API_KEY
 openai.api_key = API_KEY
+# Обычный клиент
+client = OpenAI(
+    api_key=openai.api_key
+)
 
-client = OpenAI(api_key=openai.api_key)    # Обычный клиент
-# client = AsyncOpenAI(api_key=openai.api_key) # Асинхронный клиент
-
+BA = os.environ.get("BA") # billing account
 logger.debug(f'BA={BA}')
+
+LL_MODEL = os.environ.get("LL_MODEL") # модель
 logger.debug(f'LL_MODEL = {LL_MODEL}')
 
-# CHUNK_SIZE = int(os.environ.get("CHUNK_SIZE")) # Количество токинов в  чанке
+CHUNK_SIZE = int(os.environ.get("CHUNK_SIZE")) # Количество токинов в  чанке
 logger.debug(f'CHUNK_SIZE={CHUNK_SIZE}')
 
-# NUMBER_RELEVANT_CHUNKS = int(os.environ.get("NUMBER_RELEVANT_CHUNKS"))   # Количество релевантных чанков
+NUMBER_RELEVANT_CHUNKS = int(os.environ.get("NUMBER_RELEVANT_CHUNKS"))   # Количество релевантных чанков
 logger.debug(f'NUMBER_RELEVANT_CHUNKS={NUMBER_RELEVANT_CHUNKS}')
 
-# TEMPERATURE = float(os.environ.get("TEMPERATURE")) # Температура модели
+TEMPERATURE = float(os.environ.get("TEMPERATURE")) # Температура модели
 logger.debug(f'TEMPERATURE={TEMPERATURE}')
+
+SYSTEM_DOC_URL = os.environ.get("SYSTEM_DOC_URL") # промпт
 logger.debug(f'SYSTEM_DOC_URL = {SYSTEM_DOC_URL}')
+
+KNOWLEDGE_BASE_URL = os.environ.get("KNOWLEDGE_BASE_URL") # база знаний
 logger.debug(f'KNOWLEDGE_BASE_URL = {KNOWLEDGE_BASE_URL}')
+
+DATA_FILES = os.environ.get("DATA_FILES")
 logger.debug(f'DATA_FILES = {DATA_FILES}')
+
+DB_DIR_NAME = os.environ.get("DB_DIR_NAME") # каталог для db
 logger.debug(f'DB_DIR_NAME = {DB_DIR_NAME}')
+
+DATA_REGISTRATION_FILE = os.environ.get("DATA_REGISTRATION_FILE")
 logger.debug(f'DATA_REGISTRATION_FILE={DATA_REGISTRATION_FILE}')
 
 REGISTRATION_NUMBER = 0 # Номер регистрационной записи
@@ -174,7 +186,7 @@ TOOLS = [
 ]
 
 # Запрос в ChatGPT с функцией
-async def get_answer_gpt_func(system, topic, index_db, user_id, user_name, temp=TEMPERATURE, tools=TOOLS):
+def get_answer_gpt_func(system, topic, index_db, user_id, user_name, temp=TEMPERATURE, tools=TOOLS):
     # Get the current date and time
     current_datetime = datetime.now(tz=timezone(timedelta(hours=3)))
     # Format the date and time as a string
@@ -200,8 +212,7 @@ async def get_answer_gpt_func(system, topic, index_db, user_id, user_name, temp=
 
     # Шаг 2. Отправить в модель контекст разговора и доступные функции.
     logger.debug(f'Шаг 2. Отправить в модель контекст разговора и доступные функции')
-    response = client.chat.completions.create(     # Обычный клиент
-    # response = await client.chat.completions.create( # Асинхронный клиент
+    response = client.chat.completions.create(
         model=LL_MODEL,
         messages=messages,
         tools=tools,
@@ -223,10 +234,7 @@ async def get_answer_gpt_func(system, topic, index_db, user_id, user_name, temp=
         logger.debug(f'Шаг 4: Вызов функции, запрошенной моделью')
         # Шаг 4: Вызов функции, запрошенной моделью
         i4 = 0
-        logger.debug(f'tool_calls = {tool_calls}')
-        for tool_call in tool_calls: # Так не делаем, т.к. бывает более одного срабатывания для той-же функции
-            # tool_call = tool_calls[0]
-            # logger.debug(f'tool_call = {tool_call}')
+        for tool_call in tool_calls:
             i4 += 1
             logger.debug(f'Шаг 4: {i4}')
             function_name = tool_call.function.name
@@ -256,8 +264,7 @@ async def get_answer_gpt_func(system, topic, index_db, user_id, user_name, temp=
             )
         logger.debug(f'Шаг 5: Продолжаем разговор с обновленной историей')
         # Шаг 5: Продолжаем разговор с обновленной историей
-        second_response = client.chat.completions.create(     # Обычный клиент
-        # second_response = await client.chat.completions.create( # Асинхронный клиент
+        second_response = client.chat.completions.create(
             model=LL_MODEL,
             messages=messages,
         )  # Получаем новый ответ от модели, где она сможет увидеть ответ функции.
@@ -277,8 +284,8 @@ async def get_answer_gpt_func(system, topic, index_db, user_id, user_name, temp=
     tls.append_to_file(line_for_file, csvfilename)
     return answer, response
 
-async def answer_user_question(topic, user_name, user_id):
-    ans, completion = await get_answer_gpt_func(system, topic, db, user_id, user_name)  # получите ответ модели с функцие
+def answer_user_question(topic, user_name, user_id):
+    ans, completion = get_answer_gpt_func(system, topic, db, user_id, user_name)  # получите ответ модели с функцие
     return ans
 
 
