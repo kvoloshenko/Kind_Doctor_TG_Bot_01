@@ -224,36 +224,36 @@ async def get_answer_gpt_func(system, topic, index_db, user_id, user_name, temp=
         # Шаг 4: Вызов функции, запрошенной моделью
         i4 = 0
         logger.debug(f'tool_calls = {tool_calls}')
-         # for tool_call in tool_calls: # Так не делаем, т.к. бывает более одного срабатывания для той-же функции
-        tool_call = tool_calls[0]
-        logger.debug(f'tool_call = {tool_call}')
-        i4 += 1
-        logger.debug(f'Шаг 4: {i4}')
-        function_name = tool_call.function.name
-        function_to_call = available_functions[function_name]
-        function_args = json.loads(tool_call.function.arguments)
+        for tool_call in tool_calls: # Так не делаем, т.к. бывает более одного срабатывания для той-же функции
+            # tool_call = tool_calls[0]
+            # logger.debug(f'tool_call = {tool_call}')
+            i4 += 1
+            logger.debug(f'Шаг 4: {i4}')
+            function_name = tool_call.function.name
+            function_to_call = available_functions[function_name]
+            function_args = json.loads(tool_call.function.arguments)
 
-        # Вызов функции с извлеченными аргументами
-        function_response = function_to_call(
-            user_id      = function_args.get("user_id"),
-            last_name    = function_args.get("last_name"),
-            first_name   = function_args.get("first_name"),
-            patronymic   = function_args.get("patronymic"),
-            phone_number = function_args.get("phone_number"),
-            age          = function_args.get("age"),
-            condition    = function_args.get("condition"),
-            information  = function_args.get("information"),
-        )
+            # Вызов функции с извлеченными аргументами
+            function_response = function_to_call(
+                user_id      = function_args.get("user_id"),
+                last_name    = function_args.get("last_name"),
+                first_name   = function_args.get("first_name"),
+                patronymic   = function_args.get("patronymic"),
+                phone_number = function_args.get("phone_number"),
+                age          = function_args.get("age"),
+                condition    = function_args.get("condition"),
+                information  = function_args.get("information"),
+            )
 
-        # Добавляем ответ функции в историю разговора
-        messages.append(
-            {
-                "tool_call_id": tool_call.id,
-                "role": "tool",
-                "name": function_name,
-                "content": function_response,
-            }
-        )
+            # Добавляем ответ функции в историю разговора
+            messages.append(
+                {
+                    "tool_call_id": tool_call.id,
+                    "role": "tool",
+                    "name": function_name,
+                    "content": function_response,
+                }
+            )
         logger.debug(f'Шаг 5: Продолжаем разговор с обновленной историей')
         # Шаг 5: Продолжаем разговор с обновленной историей
         second_response = client.chat.completions.create(     # Обычный клиент
