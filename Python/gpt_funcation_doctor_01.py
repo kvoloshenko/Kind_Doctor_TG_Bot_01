@@ -1,3 +1,4 @@
+from config import *
 import os
 from dotenv import load_dotenv
 from loguru import logger
@@ -28,34 +29,15 @@ client = OpenAI(
     api_key=openai.api_key
 )
 
-BA = os.environ.get("BA") # billing account
 logger.debug(f'BA={BA}')
-
-LL_MODEL = os.environ.get("LL_MODEL") # модель
 logger.debug(f'LL_MODEL = {LL_MODEL}')
-
-CHUNK_SIZE = int(os.environ.get("CHUNK_SIZE")) # Количество токинов в  чанке
 logger.debug(f'CHUNK_SIZE={CHUNK_SIZE}')
-
-NUMBER_RELEVANT_CHUNKS = int(os.environ.get("NUMBER_RELEVANT_CHUNKS"))   # Количество релевантных чанков
 logger.debug(f'NUMBER_RELEVANT_CHUNKS={NUMBER_RELEVANT_CHUNKS}')
-
-TEMPERATURE = float(os.environ.get("TEMPERATURE")) # Температура модели
 logger.debug(f'TEMPERATURE={TEMPERATURE}')
-
-SYSTEM_DOC_URL = os.environ.get("SYSTEM_DOC_URL") # промпт
 logger.debug(f'SYSTEM_DOC_URL = {SYSTEM_DOC_URL}')
-
-KNOWLEDGE_BASE_URL = os.environ.get("KNOWLEDGE_BASE_URL") # база знаний
 logger.debug(f'KNOWLEDGE_BASE_URL = {KNOWLEDGE_BASE_URL}')
-
-DATA_FILES = os.environ.get("DATA_FILES")
 logger.debug(f'DATA_FILES = {DATA_FILES}')
-
-DB_DIR_NAME = os.environ.get("DB_DIR_NAME") # каталог для db
 logger.debug(f'DB_DIR_NAME = {DB_DIR_NAME}')
-
-DATA_REGISTRATION_FILE = os.environ.get("DATA_REGISTRATION_FILE")
 logger.debug(f'DATA_REGISTRATION_FILE={DATA_REGISTRATION_FILE}')
 
 REGISTRATION_NUMBER = 0 # Номер регистрационной записи
@@ -132,7 +114,7 @@ def fillout_google_form(user_id,
     line_for_file = f'"{user_id}";"{REGISTRATION_NUMBER}";"{last_name}";"{first_name}";"{patronymic}";"{phone_number}";"{age}";"{condition}";"{information}"'
     tls.append_to_file(line_for_file, data_registration_file)
     logger.debug(f'Обращение зарегистрировано под номером {REGISTRATION_NUMBER}')
-    reset_user_history(user_id) #Очистка истории чата для указанного пользователя
+    # reset_user_history(user_id) #Очистка истории чата для указанного пользователя
     return json.dumps({"registration_number": REGISTRATION_NUMBER})
 
 
@@ -262,6 +244,7 @@ def get_answer_gpt_func(system, topic, index_db, user_id, user_name, temp=TEMPER
                     "content": function_response,
                 }
             )
+        reset_user_history(user_id)  # Очистка истории чата для указанного пользователя
         logger.debug(f'Шаг 5: Продолжаем разговор с обновленной историей')
         # Шаг 5: Продолжаем разговор с обновленной историей
         second_response = client.chat.completions.create(
@@ -284,7 +267,7 @@ def get_answer_gpt_func(system, topic, index_db, user_id, user_name, temp=TEMPER
     tls.append_to_file(line_for_file, csvfilename)
     return answer, response
 
-def answer_user_question(topic, user_name, user_id):
+async def answer_user_question(topic, user_name, user_id):
     ans, completion = get_answer_gpt_func(system, topic, db, user_id, user_name)  # получите ответ модели с функцие
     return ans
 
