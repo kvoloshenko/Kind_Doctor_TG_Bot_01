@@ -22,5 +22,17 @@ Bot создан  по технологии RAG (Retrieval-Augmented Generation)
 Год выпуска: 2009
 Автор: Wolters Kluwer / Уолтерс Клауэр
 
+___
+## Как это работает
+Основные концепты работы этого бота уже рассмотрены здсь:
+
+### 1. Концепты использования RAG (Retrieval-Augmented Generation)
+
+Playlist: https://www.youtube.com/watch?v=NkjkqsLCweQ&list=PLAzpexGM7Jai1qgfxMkY-6ivOft-7dh8Q 
+
+### 2. Концепты использования OpenAI API (API ChatGPT)
+
+Playlist: https://www.youtube.com/watch?v=FoLquyNFE_c&list=PLAzpexGM7JagNMDIWUsoO8fbTwbY82ZEN
+
 ---
 Приглашаю в Телеграм общаться по это теме: https://t.me/AiExp01
