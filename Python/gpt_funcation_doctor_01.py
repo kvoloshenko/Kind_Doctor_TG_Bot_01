@@ -10,7 +10,8 @@ import db_tools_01 as dbt
 from langchain_openai import OpenAIEmbeddings
 from chat_history_01 import set_user_history, get_user_history, reset_user_history
 import openai
-from openai import OpenAI
+# from openai import OpenAI
+from openai import AsyncOpenAI
 
 # Get the current date and time
 current_datetime = datetime.now(tz=timezone(timedelta(hours=3)))
@@ -24,10 +25,9 @@ load_dotenv()
 API_KEY = os.environ.get("API_KEY")
 os.environ["OPENAI_API_KEY"] = API_KEY
 openai.api_key = API_KEY
-# Обычный клиент
-client = OpenAI(
-    api_key=openai.api_key
-)
+
+# client = OpenAI(api_key=openai.api_key)    # Обычный клиент
+client = AsyncOpenAI(api_key=openai.api_key) # Асинхронный клиент
 
 logger.debug(f'BA={BA}')
 logger.debug(f'LL_MODEL = {LL_MODEL}')
@@ -200,7 +200,8 @@ def get_answer_gpt_func(system, topic, index_db, user_id, user_name, temp=TEMPER
 
     # Шаг 2. Отправить в модель контекст разговора и доступные функции.
     logger.debug(f'Шаг 2. Отправить в модель контекст разговора и доступные функции')
-    response = client.chat.completions.create(
+    # response = client.chat.completions.create(     # Обычный клиент
+    response = await client.chat.completions.create( # Асинхронный клиент
         model=LL_MODEL,
         messages=messages,
         tools=tools,
@@ -255,7 +256,8 @@ def get_answer_gpt_func(system, topic, index_db, user_id, user_name, temp=TEMPER
         )
         logger.debug(f'Шаг 5: Продолжаем разговор с обновленной историей')
         # Шаг 5: Продолжаем разговор с обновленной историей
-        second_response = client.chat.completions.create(
+        # second_response = client.chat.completions.create(     # Обычный клиент
+        second_response = await client.chat.completions.create( # Асинхронный клиент
             model=LL_MODEL,
             messages=messages,
         )  # Получаем новый ответ от модели, где она сможет увидеть ответ функции.
