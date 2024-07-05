@@ -51,7 +51,7 @@ async def text(update, context):
         else:
             # TODO
             # reply_text = "The answer is a stub"
-            reply_text = chat_gpt.answer_user_question(topic, user_name, str(user_id))
+            reply_text = await chat_gpt.answer_user_question(topic, user_name, str(user_id))
 
         response = TEXT_BEGINNING + '\n'
         response = response + reply_text + '\n' + TEXT_END

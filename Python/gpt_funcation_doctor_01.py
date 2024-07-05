@@ -174,7 +174,7 @@ TOOLS = [
 ]
 
 # Запрос в ChatGPT с функцией
-def get_answer_gpt_func(system, topic, index_db, user_id, user_name, temp=TEMPERATURE, tools=TOOLS):
+async def get_answer_gpt_func(system, topic, index_db, user_id, user_name, temp=TEMPERATURE, tools=TOOLS):
     # Get the current date and time
     current_datetime = datetime.now(tz=timezone(timedelta(hours=3)))
     # Format the date and time as a string
@@ -277,8 +277,8 @@ def get_answer_gpt_func(system, topic, index_db, user_id, user_name, temp=TEMPER
     tls.append_to_file(line_for_file, csvfilename)
     return answer, response
 
-def answer_user_question(topic, user_name, user_id):
-    ans, completion = get_answer_gpt_func(system, topic, db, user_id, user_name)  # получите ответ модели с функцие
+async def answer_user_question(topic, user_name, user_id):
+    ans, completion = await get_answer_gpt_func(system, topic, db, user_id, user_name)  # получите ответ модели с функцие
     return ans
 
 
