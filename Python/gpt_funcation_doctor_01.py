@@ -222,7 +222,9 @@ def get_answer_gpt_func(system, topic, index_db, user_id, user_name, temp=TEMPER
         logger.debug(f'Шаг 4: Вызов функции, запрошенной моделью')
         # Шаг 4: Вызов функции, запрошенной моделью
         i4 = 0
+        logger.debug(f'tool_calls = {tool_calls}')
         for tool_call in tool_calls:
+            logger.debug(f'tool_call = {tool_call}')
             i4 += 1
             logger.debug(f'Шаг 4: {i4}')
             function_name = tool_call.function.name
