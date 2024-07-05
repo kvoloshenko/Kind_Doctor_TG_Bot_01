@@ -18,7 +18,7 @@ def get_user_history(user_id):
     c = memory.load_memory_variables({})
   else:
     c = m.load_memory_variables({})
-    pprint.pprint(c)
+    # pprint.pprint(c)
     memory = m
   return c, memory
 
