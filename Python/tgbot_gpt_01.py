@@ -3,7 +3,7 @@ from telegram.ext import Application, CommandHandler, MessageHandler, filters
 from dotenv import load_dotenv
 from tools_01 import split_text
 import os
-from Python import gpt_funcation_doctor_01 as chat_gpt
+import gpt_funcation_doctor_01 as chat_gpt
 from loguru import logger
 
 # возьмем переменные окружения из .env
