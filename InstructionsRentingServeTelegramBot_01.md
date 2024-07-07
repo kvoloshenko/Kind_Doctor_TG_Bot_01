@@ -48,8 +48,9 @@
 3. Установите зависимости для вашего Telegram-бота. Например:
    
    ```bash
-   pip3 install aiogram
+   pip3 install python-telegram-bot==20.7
    ```
+Подробный список зависимостей можно найти в файле  **requirements.txt** см. здесь: [requirements.txt](requirements.txt)
 
 #### Шаг 6: Копирование скриптов на сервер
 

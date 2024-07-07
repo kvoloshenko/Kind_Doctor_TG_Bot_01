@@ -35,4 +35,4 @@ Playlist: https://www.youtube.com/watch?v=NkjkqsLCweQ&list=PLAzpexGM7Jai1qgfxMkY
 Playlist: https://www.youtube.com/watch?v=FoLquyNFE_c&list=PLAzpexGM7JagNMDIWUsoO8fbTwbY82ZEN
 
 ---
-Приглашаю в Телеграм общаться по это теме: https://t.me/AiExp01
+Вопросы и пожелания сюда:  https://t.me/AiExp01/98
