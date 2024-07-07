@@ -1,5 +1,7 @@
 ### Инструкция по аренде сервера на Selectel и запуску Telegram-бота
 
+**Внимание: Это рабочая неоконченная версия!**
+
 #### Шаг 1: Регистрация на Selectel
 
 1. Зайдите на сайт [Selectel](https://selectel.ru/) и зарегистрируйтесь, если у вас еще нет аккаунта.
@@ -44,6 +46,17 @@
    sudo apt update
    sudo apt install python3 python3-pip
    ```
+
+
+TODO: Установка Git
+   ```bash
+   > sudo apt install git
+   ```
+
+TODO: Установка исходников с GitHub
+   ```bash
+  > git clone https://github.com/kvoloshenko/Kind_Doctor_TG_Bot_01.git
+  ```
 
 3. Установите зависимости для вашего Telegram-бота. Например:
    
