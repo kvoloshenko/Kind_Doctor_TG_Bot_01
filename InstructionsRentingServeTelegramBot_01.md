@@ -53,10 +53,21 @@ TODO: Установка Git
    > sudo apt install git
    ```
 
+TODO: Настройка Git
+
+типа как здесь: https://selectel.ru/blog/tutorials/git-setup-and-common-commands/
+
 TODO: Установка исходников с GitHub
    ```bash
   > git clone https://github.com/kvoloshenko/Kind_Doctor_TG_Bot_01.git
   ```
+
+TODO: Создание окружения venv
+  ```bash
+  activate
+  ```
+
+TODO: Для FAISS нужен С++ ???
 
 3. Установите зависимости для вашего Telegram-бота. Например:
    
@@ -84,7 +95,14 @@ TODO: Установка исходников с GitHub
    ```bash
    python3 your_bot_script.py
    ```
-
+   
+TODO:
+   ```bash
+   # Переходим в папку бота
+   > cd /content/Kind_Doctor_TG_Bot_01/Python
+   # Запускаем TG ботa
+   > python /content/Kind_Doctor_TG_Bot_01/Python/main.py
+   ```
 2. Вы можете использовать screen или tmux для запуска бота в бекграунде:
    
    ```bash
