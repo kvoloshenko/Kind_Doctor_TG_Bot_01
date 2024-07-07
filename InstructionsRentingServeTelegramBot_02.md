@@ -2,8 +2,6 @@
 
 **Внимание: Это рабочая неоконченная версия!**
 
-TODO: Потенциально другой провайдер:  https://www.hetzner.com/
-
 #### Шаг 1: Регистрация на Selectel
 
 1. Зайдите на сайт [Selectel](https://selectel.ru/) и зарегистрируйтесь, если у вас еще нет аккаунта.
@@ -12,10 +10,8 @@ TODO: Потенциально другой провайдер:  https://www.het
 #### Шаг 2: Пополнение баланса
 
 1. Перейдите в панель управления и пополните баланс. Для первоначальной работы и тестов можно пополнить баланс на 50-100 рублей. Средства списываются каждый час.
-   
-#### Шаг 3: Создание проекта и сервера
 
-TODO: выбор правильного региона для сервера kz-1, ALM-1 см. список здесь: https://docs.selectel.ru/control-panel-actions/infrastructure/#selectel-infrastructure
+#### Шаг 3: Создание проекта и сервера
 
 1. В панели управления зайдите во вкладку "Облачная платформа".
 2. Если у вас еще нет проекта, создайте новый. Назовите его как угодно, например, `TelegramBot`.
@@ -24,7 +20,7 @@ TODO: выбор правильного региона для сервера kz-
 #### Конфигурация сервера:
 
 1. **Имя сервера**: Оставьте стандартное или задайте свое.
-2. **Регион и пул**: Оставьте значения по умолчанию.
+2. **Регион и пул**: Выберите подходящий регион, например, kz-1 или ALM-1. Список доступных регионов можно найти [здесь](https://docs.selectel.ru/control-panel-actions/infrastructure/#selectel-infrastructure).
 3. **Источник**: Выберите "Ubuntu".
 4. **Диск**: Выберите "Универсальный HDD" с минимальным объемом 5 ГБ.
 5. **Сеть**: Убедитесь, что выбран новый публичный адрес.
@@ -36,101 +32,97 @@ TODO: выбор правильного региона для сервера kz-
 2. Вам нужно будет подключиться к серверу по SSH. Для этого вам понадобится IP-адрес, имя пользователя и пароль. Используйте SSH-клиент, например, терминал на Linux или macOS, либо PuTTY на Windows.
 
 **Команда для подключения по SSH:**
-   
-   ```bash
-   ssh username@your_server_ip
-   ```
+
+```bash
+ssh username@your_server_ip
+```
 
 #### Шаг 5: Установка необходимых программ
 
 1. Войдите в сервер через SSH.
 2. Установите Python и pip, если они еще не установлены:
-   
-   ```bash
-   sudo apt update
-   sudo apt install python3 python3-pip
-   ```
 
+```bash
+sudo apt update
+sudo apt install python3 python3-pip
+```
 
-TODO: Установка Git
-   ```bash
-   > sudo apt install git
-   ```
+3. Установите Git:
 
-TODO: Настройка Git
+```bash
+sudo apt install git
+```
 
-типа как здесь: https://selectel.ru/blog/tutorials/git-setup-and-common-commands/
+4. Настройте Git. Детальную инструкцию можно найти [здесь](https://selectel.ru/blog/tutorials/git-setup-and-common-commands/).
 
-TODO: Установка исходников с GitHub
-   ```bash
-  > git clone https://github.com/kvoloshenko/Kind_Doctor_TG_Bot_01.git
-  ```
+5. Склонируйте репозиторий Telegram-бота с GitHub:
 
-TODO: Создание окружения venv
-  ```bash
-  activate
-  ```
+```bash
+git clone https://github.com/kvoloshenko/Kind_Doctor_TG_Bot_01.git
+```
 
-TODO: Для FAISS нужен С++ ??? или для faiss-cpu - не нужно?
+6. Создайте виртуальное окружение для вашего проекта и активируйте его:
 
-3. Установите зависимости для вашего Telegram-бота. Например:
-   
-   ```bash
-   pip3 install python-telegram-bot==20.7
-   ```
-Подробный список зависимостей можно найти в файле  **requirements.txt** см. здесь: [requirements.txt](requirements.txt)
+```bash
+cd Kind_Doctor_TG_Bot_01
+python3 -m venv venv
+source venv/bin/activate
+```
 
-   ```bash
-  pip3 install -r requirements.txt
-   ```
+7. Установите зависимости для вашего Telegram-бота. Например:
+
+```bash
+pip install -r requirements.txt
+```
 
 #### Шаг 6: Копирование скриптов на сервер
 
-1. Используйте SCP или SFTP для передачи файлов бота на сервер. Пример SCP-команды:
-   
-   ```bash
-   scp /path/to/your_bot_script.py username@your_server_ip:~/  
-   ```
+1. Можно использовать склонированные скрипты с GitHub. Если у вас свой проект, используйте SCP или SFTP для передачи файлов бота на сервер. Пример SCP-команды:
+
+```bash
+scp /path/to/your_bot_script.py username@your_server_ip:~/  
+```
 
 #### Шаг 7: Запуск бота
 
-1. На сервере убедитесь, что скрипт вашего бота работает:
-   
-   ```bash
-   python3 your_bot_script.py
-   ```
-   
-TODO:
-   ```bash
-   # Переходим в папку бота
-   > cd /content/Kind_Doctor_TG_Bot_01/Python
-   # Запускаем TG ботa
-   > python /content/Kind_Doctor_TG_Bot_01/Python/main.py
-   ```
-2. Вы можете использовать screen или tmux для запуска бота в бекграунде:
-   
-   ```bash
-   sudo apt install screen
-   screen -S TelegramBot
-   python3 your_bot_script.py
-   # Чтобы выйти из screen, нажмите Ctrl+A, затем D.
-   ```
+1. Перейдите в папку с вашим ботом и убедитесь, что скрипт вашего бота работает:
+
+```bash
+cd /path/to/your_bot_script
+python3 your_bot_script.py
+```
+
+2. Для вашего проекта:
+
+```bash
+cd ~/Kind_Doctor_TG_Bot_01/Python
+python main.py
+```
+
+3. Вы можете использовать screen или tmux для запуска бота в фоновом режиме:
+
+```bash
+sudo apt install screen
+screen -S TelegramBot
+python3 your_bot_script.py
+# Чтобы выйти из screen, нажмите Ctrl+A, затем D.
+```
 
 #### Шаг 8: Завершение и управление
 
-1. Если вам нужно остановить бот, зайдите в ваш screen-сессия и завершите процесс.
+1. Если вам нужно остановить бот, зайдите в вашу screen-сессию и завершите процесс.
 2. Чтобы остановить и удалить сервер, выполните это через панель управления Selectel. Помните, что средства будут списываться, пока сервер существует, даже если он выключен.
 
 #### Шаг 9: Мониторинг и вопросы
 
 1. Используйте расширения для вашего SSH-клиента, такие как Remote - SSH для Visual Studio Code, для более удобной работы:
-   
-   - Установите расширение Remote - SSH в Visual Studio Code.
-   - Настройте подключение и работайте с вашим сервером прямо из редактора кода.
+
+- Установите расширение Remote - SSH в Visual Studio Code.
+- Настройте подключение и работайте с вашим сервером прямо из редактора кода.
 
 #### Общие советы и дополнительные ресурсы:
 
-- Используйте серверы Selectel или аналогичные платформы, такие как Hetzner, для более дешевых вариантов.
+- Используйте серверы Selectel или аналогичные платформы, такие как [Hetzner](https://www.hetzner.com/), для более дешевых вариантов.
 - Для долгосрочных проектов включите автоматическое обновление и мониторинг серверов.
 - Внимательно следите за вашим балансом на Selectel, чтобы избежать неожиданного завершения работы из-за недостатка средств.
 
