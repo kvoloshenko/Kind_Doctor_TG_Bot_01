@@ -52,6 +52,10 @@
    ```
 Подробный список зависимостей можно найти в файле  **requirements.txt** см. здесь: [requirements.txt](requirements.txt)
 
+   ```bash
+  pip3 install -r requirements.txt
+   ```
+
 #### Шаг 6: Копирование скриптов на сервер
 
 1. Используйте SCP или SFTP для передачи файлов бота на сервер. Пример SCP-команды:
